@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUTO Clearance Portal</title>
+    <meta name="description" content="FUTO Clearance Portal - Streamline your clearance process with our secure, efficient, and user-friendly digital platform.">
+    <meta name="keywords" content="FUTO, Clearance, Portal, University, Student, Academic, Requirements, Nigeria">
+    <meta name="author" content="Federal University of Technology, Owerri">
+    <link rel="icon" type="image/png" href="https://www.eduopinions.com/wp-content/uploads/2022/05/Federal-University-of-Technology-Owerri.jpg">
+    <link rel="apple-touch-icon" href="https://www.eduopinions.com/wp-content/uploads/2022/05/Federal-University-of-Technology-Owerri.jpg">
+    <meta name="theme-color" content="#005a9c">
+    <meta property="og:title" content="FUTO Clearance Portal">
+    <meta property="og:description" content="Streamline your clearance process with our advanced digital platform.">
+    <meta property="og:image" content="https://www.eduopinions.com/wp-content/uploads/2022/05/Federal-University-of-Technology-Owerri.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://futo.edu.ng/clearance">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FUTO Clearance Portal">
+    <meta name="twitter:description" content="Streamline your clearance process with our advanced digital platform.">
+    <meta name="twitter:image" content="https://www.eduopinions.com/wp-content/uploads/2022/05/Federal-University-of-Technology-Owerri.jpg">
+    <link rel="stylesheet" href="/_next/CSS/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo-container">
+                <div class="logo"><img src="https://www.eduopinions.com/wp-content/uploads/2022/05/Federal-University-of-Technology-Owerri.jpg" alt="FUTO Logo"></div>
+                <div class="logo-text">Clearance Portal</div>
+            </div>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" onclick="openModal('login')">Login</button>
+                <button class="btn btn-primary" onclick="openModal('signup')">Sign Up</button>
+            </div>
+        </div>
+    </header>
+    <nav class="mobile-header">
+        <div class="mobile-logo">
+            <img src="https://www.eduopinions.com/wp-content/uploads/2022/05/Federal-University-of-Technology-Owerri.jpg" alt="FUTO Logo">
+            <span>Clearance Portal</span>
+        </div>
+        <button class="mobile-menu-toggle" aria-label="Open navigation" onclick="toggleMobileMenu()">
+            <span class="menu-bar"></span>
+            <span class="menu-bar"></span>
+            <span class="menu-bar"></span>
+        </button>
+        <div class="mobile-menu" id="mobileMenu">
+            <button class="mobile-auth-btn btn btn-outline" onclick="openModal('login')">Login</button>
+            <button class="mobile-auth-btn btn btn-primary" onclick="openModal('signup')">Sign Up</button>
+        </div>
+    </nav>
+    <main>
+        <div class="hero">
+            <h1>Welcome to FUTO Clearance Portal</h1>
+            <p>Streamline your clearance process with our advanced digital platform. Secure, efficient, and user-friendly clearance management system designed for the modern academic environment.</p>
+            
+            <div class="gif-container">
+                <div class="gif-placeholder">
+                    <div class="gif-animation"></div>
+                    <span><img src="https://tse3.mm.bing.net/th/id/OIP.llfgaPzEB5Sgem7HCl8MbQHaE8?r=0&rs=1&pid=ImgDetMain&cb=idpwebpc1" alt="Clearance Processing Animation"></span>
+                </div>
+            </div>
+
+            <div class="cta-buttons">
+                <button class="btn btn-primary btn-large" onclick="openModal('signup')">Get Started</button>
+                <button class="btn btn-outline btn-large" onclick="openModal('login')">Access Portal</button>
+            </div>
+        </div>
+    </main>
+
+    
+    <!-- Clearance Requirements Section -->
+<section class="clearance-requirements">
+    <div class="requirements-container">
+        <h2>Clearance Requirements</h2>
+        <div class="requirement-display">
+            <div class="requirement-item active" data-requirement="0">
+                <div class="requirement-icon">🧾</div>
+                <h3>School Fees Receipt</h3>
+                <p>Valid proof of payment for current academic session</p>
+            </div>
+            <div class="requirement-item" data-requirement="1">
+                <div class="requirement-icon">📚</div>
+                <h3>Library Clearance</h3>
+                <p>Return all borrowed books and clear outstanding dues</p>
+            </div>
+            <div class="requirement-item" data-requirement="2">
+                <div class="requirement-icon">🏠</div>
+                <h3>Accommodation Clearance</h3>
+                <p>Hostel key return and room damage assessment</p>
+            </div>
+            <div class="requirement-item" data-requirement="3">
+                <div class="requirement-icon">🔬</div>
+                <h3>Laboratory Clearance</h3>
+                <p>Return lab equipment and settle any breakage fees</p>
+            </div>
+            <div class="requirement-item" data-requirement="4">
+                <div class="requirement-icon">📋</div>
+                <h3>Academic Records</h3>
+                <p>Complete all course evaluations and assessments</p>
+            </div>
+            <div class="requirement-item" data-requirement="5">
+                <div class="requirement-icon">💳</div>
+                <h3>Student ID Card</h3>
+                <p>Return or transfer student identification card</p>
+            </div>
+            <div class="requirement-item" data-requirement="6">
+                <div class="requirement-icon">🏥</div>
+                <h3>Medical Clearance</h3>
+                <p>Complete health center requirements and medical forms</p>
+            </div>
+            <div class="requirement-item" data-requirement="7">
+                <div class="requirement-icon">👥</div>
+                <h3>Departmental Clearance</h3>
+                <p>Final approval from your academic department</p>
+            </div>
+        </div>
+        <div class="progress-dots">
+            <span class="dot active" data-dot="0"></span>
+            <span class="dot" data-dot="1"></span>
+            <span class="dot" data-dot="2"></span>
+            <span class="dot" data-dot="3"></span>
+            <span class="dot" data-dot="4"></span>
+            <span class="dot" data-dot="5"></span>
+            <span class="dot" data-dot="6"></span>
+            <span class="dot" data-dot="7"></span>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <div class="logo">
+                        <img src="https://www.eduopinions.com/wp-content/uploads/2022/05/Federal-University-of-Technology-Owerri.jpg" alt="FUTO Logo" style="width:48px;height:48px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);object-fit:cover;">
+                    </div>
+                    <div class="footer-brand">
+                        <h3>Clearance Portal</h3>
+                        <p>Streamlining academic clearance processes</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#requirements">Requirements</a></li>
+                    <li><a href="#process">Process Guide</a></li>
+                    <li><a href="#status">Check Status</a></li>
+                    <li><a href="#help">Help Center</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#technical">Technical Support</a></li>
+                    <li><a href="#feedback">Feedback</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <div class="contact-info">
+                    <p>📧 clearance@futo.edu.ng</p>
+                    <p>📞 +234 (0) 83 230 3544</p>
+                    <p>📍 Federal University of Technology, Owerri</p>
+                    <p>🕒 Mon - Fri: 8:00 AM - 5:00 PM</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; 2025 Federal University of Technology, Owerri. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#accessibility">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <button class="close" onclick="closeModal('loginModal')">&times;</button>
+            <div class="modal-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to your FUTO account</p>
+            </div>
+            <div id="loginError" class="error-message" style="display: none;"></div>
+            <div id="loginSuccess" class="success-message" style="display: none;"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Sign In</button>
+            </form>
+            <div class="toggle-form">
+                Don't have an account? <a href="#" onclick="switchModal('loginModal', 'signupModal')">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <button class="close" onclick="closeModal('signupModal')">&times;</button>
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <p>Join the FUTO community</p>
+            </div>
+            <div id="signupError" class="error-message" style="display: none;"></div>
+            <div id="signupSuccess" class="success-message" style="display: none;"></div>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Create Account</button>
+            </form>
+            <div class="toggle-form">
+                Already have an account? <a href="#" onclick="switchModal('signupModal', 'loginModal')">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/_next/JS/index.js"></script>
+    <script src="/_next/JS/config.js"></script>
+</body>
+</html>

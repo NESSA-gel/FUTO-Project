@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUTO Student Clearance Dashboard</title>
+    <link rel="stylesheet" href="/_next/CSS/test.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Animated Background Overlay -->
+    <div class="fixed inset-0 animated-bg opacity-5 pointer-events-none"></div>
+    
+    <!-- Header -->
+    <header class="bg-white shadow-lg relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img src="https://www.eduopinions.com/wp-content/uploads/2022/05/Federal-University-of-Technology-Owerri.jpg" 
+                         alt="FUTO Logo" class="h-12 w-12 rounded-full object-cover">
+                    <div>
+                        <h1 class="text-2xl font-bold text-green-800">FUTO Clearance Portal</h1>
+                        <p class="text-sm text-gray-600">Federal University of Technology, Owerri</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:block">
+                        <span class="text-sm text-gray-600" id="studentName">Welcome, Student</span>
+                    </div>
+                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Profile Completion Alert -->
+        <div id="profileAlert" class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg hidden">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                        Please complete your profile before uploading clearance documents.
+                        <button onclick="openProfileModal()" class="font-medium underline hover:text-yellow-800">
+                            Complete Profile
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Progress Overview -->
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                        <i class="fas fa-chart-line text-green-600 mr-2"></i>Clearance Progress
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-700">Overall Progress</span>
+                            <span class="text-sm font-medium text-green-600" id="progressPercent">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full progress-fill" 
+                                 style="width: 0%" id="progressBar"></div>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
+                            <div class="text-center">
+                                <div class="bg-green-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-file-upload text-green-600"></i>
+                                </div>
+                                <span class="text-xs text-gray-600" id="uploadedCount">0/8 Uploaded</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-yellow-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-clock text-yellow-600"></i>
+                                </div>
+                                <span class="text-xs text-gray-600">Pending Review</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-check-circle text-blue-600"></i>
+                                </div>
+                                <span class="text-xs text-gray-600" id="approvedCount">0 Approved</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="bg-red-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2">
+                                    <i class="fas fa-times-circle text-red-600"></i>
+                                </div>
+                                <span class="text-xs text-gray-600" id="rejectedCount">0 Rejected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document Upload Section -->
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                        <i class="fas fa-upload text-green-600 mr-2"></i>Upload Requirements
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="uploadSection">
+                        <!-- Upload cards will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Document Status -->
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                        <i class="fas fa-list-check text-green-600 mr-2"></i>Document Status
+                    </h2>
+                    <div class="space-y-3" id="documentStatus">
+                        <!-- Status items will be generated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-6">
+                <!-- Profile Card -->
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="text-center">
+                        <div class="relative inline-block">
+                            <img id="profileImage" src="https://via.placeholder.com/100/10b981/ffffff?text=Student" 
+                                 alt="Profile" class="w-24 h-24 rounded-full mx-auto object-cover border-4 border-green-200">
+                            <button onclick="openProfileModal()" 
+                                    class="absolute bottom-0 right-0 bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-green-600 transition-colors">
+                                <i class="fas fa-edit text-xs"></i>
+                            </button>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mt-4" id="displayName">Complete Profile</h3>
+                        <p class="text-sm text-gray-600" id="displayRegNumber">Reg Number</p>
+                        <p class="text-sm text-gray-600" id="displayDepartment">Department</p>
+                        <p class="text-sm text-gray-600" id="displayYear">Year of Clearance</p>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button onclick="openProfileModal()" 
+                                class="w-full bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
+                            <i class="fas fa-user-edit mr-2"></i>Edit Profile
+                        </button>
+                        <button onclick="viewDocuments()" 
+                                class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
+                            <i class="fas fa-eye mr-2"></i>View Documents
+                        </button>
+                        <button onclick="downloadReport()" 
+                                class="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i>Download Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Help Section -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 float">
+                    <h3 class="text-lg font-semibold text-green-800 mb-3">Need Help?</h3>
+                    <p class="text-sm text-green-700 mb-4">
+                        Having trouble with your clearance process? Our support team is here to help.
+                    </p>
+                    <button class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-sm transition-colors">
+                        <i class="fas fa-headset mr-2"></i>Contact Support
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto modal-enter">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Complete Your Profile</h2>
+                    <button onclick="closeProfileModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form id="profileForm" class="space-y-6">
+                    <div class="text-center">
+                        <div class="relative inline-block">
+                            <img id="modalProfileImage" src="https://via.placeholder.com/120/10b981/ffffff?text=Upload" 
+                                 alt="Profile Preview" class="w-32 h-32 rounded-full object-cover border-4 border-green-200">
+                            <input type="file" id="profileImageInput" accept="image/*" class="hidden" onchange="previewImage(this)">
+                            <button type="button" onclick="document.getElementById('profileImageInput').click()" 
+                                    class="absolute bottom-0 right-0 bg-green-500 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-green-600 transition-colors">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Click to upload profile photo</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                            <input type="text" id="studentFullName" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Registration Number *</label>
+                            <input type="text" id="regNumber" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                   placeholder="e.g., 2020/1/12345">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Department *</label>
+                            <select id="department" required 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                <option value="">Select Department</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Electrical Engineering">Electrical Engineering</option>
+                                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                <option value="Civil Engineering">Civil Engineering</option>
+                                <option value="Chemical Engineering">Chemical Engineering</option>
+                                <option value="Petroleum Engineering">Petroleum Engineering</option>
+                                <option value="Food Science & Technology">Food Science & Technology</option>
+                                <option value="Architecture">Architecture</option>
+                                <option value="Building Technology">Building Technology</option>
+                                <option value="Surveying & Geoinformatics">Surveying & Geoinformatics</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">School *</label>
+                            <select id="school" required 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                <option value="">Select School</option>
+                                <option value="SEET">School of Engineering & Engineering Technology (SEET)</option>
+                                <option value="SAAT">School of Agriculture & Agricultural Technology (SAAT)</option>
+                                <option value="SICT">School of Information & Communication Technology (SICT)</option>
+                                <option value="SEMS">School of Environmental Sciences (SEMS)</option>
+                                <option value="SPS">School of Physical Sciences (SPS)</option>
+                                <option value="SOBS">School of Biological Sciences (SOBS)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Year of Clearance *</label>
+                            <select id="clearanceYear" required 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                <option value="">Select Year</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                            <input type="tel" id="phoneNumber" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                   placeholder="+234">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-4 pt-6 border-t">
+                        <button type="button" onclick="closeProfileModal()" 
+                                class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors pulse-green">
+                            Save Profile
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Viewer Modal -->
+    <div id="documentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto modal-enter">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Uploaded Documents</h2>
+                    <button onclick="closeDocumentModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div id="documentList" class="space-y-4">
+                    <!-- Documents will be listed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- FUTO CHATBOT WIDGET - COPY THIS ENTIRE SECTION -->
+
+<!-- Chatbot Widget -->
+<div id="chatbotWidget" class="fixed bottom-6 right-6 z-50">
+    <!-- Chat Toggle Button -->
+    <button id="chatToggle" onclick="toggleChat()" 
+            class="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+        <i class="fas fa-comments text-xl"></i>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chatWindow" class="hidden absolute bottom-20 right-0 w-96 h-[500px] md:w-96 md:h-[500px] bg-white rounded-2xl chatbot-widget overflow-hidden">
+        <!-- Chat Header -->
+        <div class="gradient-border rounded-t-2xl">
+            <div class="bg-white p-4 rounded-t-2xl">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-robot text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">FUTO Assistant</h3>
+                            <p class="text-xs text-green-600">Online • Ready to help</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleChat()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chatMessages" class="flex-1 overflow-y-auto max-h-80 md:max-h-80 p-4 md:p-4 space-y-4">
+            <!-- Welcome Message -->
+            <div class="flex items-start space-x-2">
+                <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-robot text-white text-xs"></i>
+                </div>
+                <div class="chat-bubble-bot text-gray-800 p-3 rounded-2xl rounded-tl-sm max-w-xs md:max-w-xs">
+                    <p class="text-sm">👋 Welcome to FUTO Clearance Portal! I'm here to help answer your questions about the clearance process.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Predefined Questions -->
+        <div id="questionButtons" class="p-4 md:p-4 border-t bg-gray-50 max-h-32 md:max-h-32 overflow-y-auto">
+            <p class="text-xs text-gray-600 mb-3 font-medium">Quick Questions:</p>
+            <div class="space-y-2" id="questionsContainer">
+                <!-- Questions will be populated here -->
+            </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="p-3 border-t bg-white">
+            <button onclick="resetChat()" 
+                    class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg text-sm transition-colors flex items-center justify-center">
+                <i class="fas fa-refresh mr-2"></i>Start Over
+            </button>
+        </div>
+    </div>
+</div>
+
+
+    <script src="/_next/JS/test.js"></script>
+</body>
+</html>
